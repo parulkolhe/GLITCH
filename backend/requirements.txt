@@ -1,0 +1,6 @@
+# Runtime for the game server. TensorFlow is NOT needed to play: inference runs on NumPy.
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
+numpy>=1.26
+Pillow>=10.4
+httpx>=0.27  # FastAPI's TestClient, used by the tests

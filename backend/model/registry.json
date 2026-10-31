@@ -1,0 +1,22 @@
+{
+  "active": "baseline-v1",
+  "versions": [
+    {
+      "version": "baseline-v1",
+      "created": "2026-10-25T15:30:29+00:00",
+      "note": "Original 3-block CNN, Adam, 30 epochs (doodle-panic v2 checkpoint)",
+      "architecture": "quickdraw_cnn",
+      "parameters": 91136,
+      "temperature": 0.9,
+      "uncertain_below": 0.69,
+      "validation_top_1": 0.87834375,
+      "validation_macro_f1": 0.8787384030689187,
+      "test_top_1": 0.87359375,
+      "test_top_3": 0.95190625,
+      "test_macro_f1": 0.874450746119729,
+      "test_ece_temperature_scaled": 0.012548048098459485,
+      "numpy_latency_ms_median": 1.6788254998800767,
+      "evaluation_seconds": 71.6
+    }
+  ]
+}

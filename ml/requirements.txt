@@ -1,0 +1,7 @@
+# Training and evaluation. Install on top of backend/requirements.txt.
+tensorflow>=2.16,<2.21   # training only (ml/train.py, ml/experiments.py)
+numpy>=1.26
+scipy>=1.11              # canvas simulation, robustness sweep
+matplotlib>=3.8          # figures
+Pillow>=10.4
+h5py>=3.10               # optional: export .keras weights without TensorFlow

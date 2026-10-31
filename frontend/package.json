@@ -1,0 +1,25 @@
+{
+  "name": "glitch-memory-recovery-protocol",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "GLITCH: A Memory Recovery Protocol - a drawing game judged by a QuickDraw CNN.",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node build.mjs --tests && node --test dist-tests/*.test.mjs",
+    "typecheck:offline": "tsc --noEmit -p tsconfig.shim.json"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.6.0"
+  }
+}

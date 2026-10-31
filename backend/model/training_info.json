@@ -1,0 +1,62 @@
+{
+  "architecture": "3-block convolutional neural network with training-only spatial augmentation",
+  "parameters": 91136,
+  "augmentation_layers": [
+    "augment_translation",
+    "augment_rotation",
+    "augment_scale"
+  ],
+  "input": {
+    "shape": [
+      28,
+      28,
+      1
+    ],
+    "dtype": "uint8",
+    "normalization": "Rescaling(1/255) inside the saved model"
+  },
+  "num_classes": 32,
+  "class_names": [
+    "cat",
+    "dog",
+    "fish",
+    "bird",
+    "house",
+    "tree",
+    "flower",
+    "sun",
+    "moon",
+    "star",
+    "car",
+    "bicycle",
+    "airplane",
+    "sailboat",
+    "apple",
+    "banana",
+    "pizza",
+    "cake",
+    "umbrella",
+    "clock",
+    "guitar",
+    "chair",
+    "key",
+    "lightning",
+    "cloud",
+    "headphones",
+    "frog",
+    "duck",
+    "rabbit",
+    "butterfly",
+    "mountain",
+    "book"
+  ],
+  "seed": 42,
+  "initial_model": null,
+  "learning_rate": 0.001,
+  "finetune_augmentation": false,
+  "requested_epochs": 30,
+  "completed_epochs": 30,
+  "best_validation_accuracy": 0.8783437609672546,
+  "model_file": "doodle_classifier.keras",
+  "note": "Held-out test metrics are produced separately by ml/evaluate.py; these validation metrics are not test accuracy."
+}

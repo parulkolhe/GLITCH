@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doodle Panic – Test Drawing Collector</title>
+<style>
+  :root{--ink:#211b2b;--paper:#fffaf2;--accent:#7928ca;--line:#d9cdbb}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,sans-serif}
+  main{max-width:720px;margin:0 auto;padding:20px 16px}
+  h1{font-size:1.4rem;margin:0 0 6px}
+  p{line-height:1.5;margin:6px 0}
+  .prompt{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:16px 0 10px;flex-wrap:wrap}
+  .prompt strong{font-size:2rem;letter-spacing:.04em}
+  canvas{display:block;width:100%;max-width:600px;aspect-ratio:1;background:#fff;border:2px dashed var(--line);border-radius:10px;touch-action:none;cursor:crosshair}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  button,input{font:inherit}
+  button{border:2px solid var(--ink);border-radius:8px;padding:9px 14px;background:#fff;font-weight:600;cursor:pointer}
+  button.primary{background:var(--accent);color:#fff}
+  input{border:2px solid var(--line);border-radius:8px;padding:8px 10px}
+  small{color:#62566c}
+</style>
+</head>
+<body>
+<main>
+  <h1>Test drawing collector</h1>
+  <p>Draw each prompt the way a player would. Drawings are kept in this page only; at the end, download one JSON file and run <code>python ml/eval_canvas.py drawings.json</code>.</p>
+  <div class="row">
+    <label>Your name <input id="drawer" placeholder="e.g. urvesh"></label>
+    <label>Rounds per class <input id="repeats" type="number" min="1" max="5" value="2" style="width:70px"></label>
+    <button id="start" type="button">Start / restart</button>
+  </div>
+  <div class="prompt"><span>Draw: <strong id="label">—</strong></span><small id="progress">Press start</small></div>
+  <canvas id="pad" width="600" height="600" aria-label="Drawing pad"></canvas>
+  <div class="row">
+    <button id="clear" type="button">Clear</button>
+    <button id="skip" type="button">Skip</button>
+    <button id="save" type="button" class="primary">Save &amp; next</button>
+    <button id="download" type="button">Download drawings.json</button>
+  </div>
+</main>
+<script>
+const API = window.DOODLE_API_URL || 'http://127.0.0.1:8001';
+const FALLBACK = ["cat","dog","fish","bird","house","tree","flower","sun","moon","star","car","bicycle","airplane","sailboat","apple","banana","pizza","cake","umbrella","clock","guitar","chair","key","lightning","cloud","headphones","frog","duck","rabbit","butterfly","mountain","book"];
+const pad = document.getElementById('pad'), ctx = pad.getContext('2d');
+let queue = [], index = 0, saved = [], drawing = false, dirty = false;
+
+function blank() { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, pad.width, pad.height); dirty = false; }
+function point(e) { const r = pad.getBoundingClientRect(); return { x: (e.clientX - r.left) * pad.width / r.width, y: (e.clientY - r.top) * pad.height / r.height }; }
+pad.addEventListener('pointerdown', e => { drawing = true; dirty = true; pad.setPointerCapture(e.pointerId); const p = point(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + .01, p.y + .01); ctx.stroke(); });
+pad.addEventListener('pointermove', e => { if (!drawing) return; const p = point(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
+['pointerup', 'pointercancel'].forEach(t => pad.addEventListener(t, () => { drawing = false; }));
+ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#211b2b'; ctx.lineWidth = 8;
+
+function show() {
+  blank();
+  const done = index >= queue.length;
+  document.getElementById('label').textContent = done ? 'done' : queue[index].toUpperCase();
+  document.getElementById('progress').textContent = done ? `${saved.length} drawings saved — download them` : `${index + 1} / ${queue.length} · ${saved.length} saved`;
+}
+async function start() {
+  let classes = FALLBACK;
+  try { const r = await fetch(API + '/classes'); const d = await r.json(); if (Array.isArray(d.classes) && d.classes.length) classes = d.classes; } catch (e) {}
+  const repeats = Math.max(1, Math.min(5, Number(document.getElementById('repeats').value) || 2));
+  queue = [];
+  for (let i = 0; i < repeats; i++) queue.push(...classes);
+  for (let i = queue.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [queue[i], queue[j]] = [queue[j], queue[i]]; }
+  index = 0; show();
+}
+document.getElementById('start').addEventListener('click', start);
+document.getElementById('clear').addEventListener('click', blank);
+document.getElementById('skip').addEventListener('click', () => { if (index < queue.length) { index++; show(); } });
+document.getElementById('save').addEventListener('click', () => {
+  if (index >= queue.length || !dirty) return;
+  saved.push({ label: queue[index], drawer: document.getElementById('drawer').value.trim() || 'anonymous', image: pad.toDataURL('image/png') });
+  index++; show();
+});
+document.getElementById('download').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify({ drawings: saved }, null, 0)], { type: 'application/json' });
+  const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'drawings.json'; link.click();
+  setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+});
+blank();
+</script>
+</body>
+</html>

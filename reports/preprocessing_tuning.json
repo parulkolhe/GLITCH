@@ -1,0 +1,177 @@
+{
+  "model_version": "baseline-v1",
+  "simulation": "QuickDraw bitmaps -> Zhang-Suen centrelines -> redrawn on a 600px canvas with the game's 10px pen at 260-520px size",
+  "per_class": 40,
+  "selection_split": "validation",
+  "grid": [
+    {
+      "margin": 0.02,
+      "dilation": 1,
+      "validation_accuracy": 0.4906
+    },
+    {
+      "margin": 0.02,
+      "dilation": 5,
+      "validation_accuracy": 0.7289
+    },
+    {
+      "margin": 0.02,
+      "dilation": 9,
+      "validation_accuracy": 0.707
+    },
+    {
+      "margin": 0.02,
+      "dilation": 13,
+      "validation_accuracy": 0.6016
+    },
+    {
+      "margin": 0.02,
+      "dilation": 17,
+      "validation_accuracy": 0.457
+    },
+    {
+      "margin": 0.05,
+      "dilation": 1,
+      "validation_accuracy": 0.4797
+    },
+    {
+      "margin": 0.05,
+      "dilation": 5,
+      "validation_accuracy": 0.7414
+    },
+    {
+      "margin": 0.05,
+      "dilation": 9,
+      "validation_accuracy": 0.7305
+    },
+    {
+      "margin": 0.05,
+      "dilation": 13,
+      "validation_accuracy": 0.6242
+    },
+    {
+      "margin": 0.05,
+      "dilation": 17,
+      "validation_accuracy": 0.4984
+    },
+    {
+      "margin": 0.08,
+      "dilation": 1,
+      "validation_accuracy": 0.4578
+    },
+    {
+      "margin": 0.08,
+      "dilation": 5,
+      "validation_accuracy": 0.743
+    },
+    {
+      "margin": 0.08,
+      "dilation": 9,
+      "validation_accuracy": 0.7516
+    },
+    {
+      "margin": 0.08,
+      "dilation": 13,
+      "validation_accuracy": 0.6602
+    },
+    {
+      "margin": 0.08,
+      "dilation": 17,
+      "validation_accuracy": 0.5172
+    },
+    {
+      "margin": 0.12,
+      "dilation": 1,
+      "validation_accuracy": 0.4625
+    },
+    {
+      "margin": 0.12,
+      "dilation": 5,
+      "validation_accuracy": 0.7461
+    },
+    {
+      "margin": 0.12,
+      "dilation": 9,
+      "validation_accuracy": 0.7648
+    },
+    {
+      "margin": 0.12,
+      "dilation": 13,
+      "validation_accuracy": 0.6773
+    },
+    {
+      "margin": 0.12,
+      "dilation": 17,
+      "validation_accuracy": 0.543
+    },
+    {
+      "margin": 0.12,
+      "dilation": 7,
+      "validation_accuracy": 0.7656
+    },
+    {
+      "margin": 0.12,
+      "dilation": 11,
+      "validation_accuracy": 0.7258
+    },
+    {
+      "margin": 0.16,
+      "dilation": 7,
+      "validation_accuracy": 0.7727
+    },
+    {
+      "margin": 0.16,
+      "dilation": 9,
+      "validation_accuracy": 0.7656
+    },
+    {
+      "margin": 0.16,
+      "dilation": 11,
+      "validation_accuracy": 0.7375
+    },
+    {
+      "margin": 0.2,
+      "dilation": 7,
+      "validation_accuracy": 0.7508
+    },
+    {
+      "margin": 0.2,
+      "dilation": 9,
+      "validation_accuracy": 0.7586
+    },
+    {
+      "margin": 0.2,
+      "dilation": 11,
+      "validation_accuracy": 0.7445
+    },
+    {
+      "margin": 0.25,
+      "dilation": 7,
+      "validation_accuracy": 0.7531
+    },
+    {
+      "margin": 0.25,
+      "dilation": 9,
+      "validation_accuracy": 0.7539
+    },
+    {
+      "margin": 0.25,
+      "dilation": 11,
+      "validation_accuracy": 0.7352
+    }
+  ],
+  "current": {
+    "margin": 0.12,
+    "dilation": 9,
+    "validation_accuracy": 0.7648,
+    "test_accuracy": 0.7539
+  },
+  "selected": {
+    "margin": 0.16,
+    "dilation": 7,
+    "validation_accuracy": 0.7727,
+    "test_accuracy": 0.7562
+  },
+  "raw_test_bitmap_accuracy_same_sample": 0.8664,
+  "seconds": 375.1
+}

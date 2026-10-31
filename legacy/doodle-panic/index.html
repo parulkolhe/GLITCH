@@ -1,0 +1,777 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doodle Panic!!</title>
+<meta name="theme-color" content="#fff8e9">
+<meta name="description" content="Draw fast. Panic harder. A chaotic doodle game judged by GLITCH.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root{--paper:#fff8e9;--ink:#211b2b;--purple:#7928ca;--lime:#c5ff65;--pink:#ff6685;--white:#fff;--surface:#fff;--muted:#655777;--line:#c8b9a8}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--paper);background-image:radial-gradient(#d9cdbb .7px,transparent .7px);background-size:16px 16px;color:var(--ink);font-family:'Space Grotesk',sans-serif;transition:background-color .2s,color .2s}
+body.dark-mode{--paper:#17131f;--ink:#f6efff;--surface:#241f2f;--muted:#c5b8d1;--line:#544961;background-image:radial-gradient(#41364e .7px,transparent .7px)}
+button,input{font:inherit}
+button:focus-visible{outline:4px solid var(--pink);outline-offset:3px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 6%;border-bottom:2px solid var(--ink);background:var(--paper)}
+.logo{font-family:'Fredoka',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:-1px}
+.logo span{color:var(--purple)}
+.pill{background:var(--lime);border:2px solid var(--ink);border-radius:100px;padding:8px 13px;font-size:.75rem;font-weight:700}
+main{width:min(1100px,92%);margin:42px auto}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:36px}
+.eyebrow{display:inline-block;background:var(--pink);padding:8px 12px;border:2px solid var(--ink);border-radius:6px;font-size:.75rem;font-weight:700;transform:rotate(-2deg)}
+h1{font-family:'Fredoka',sans-serif;font-size:clamp(3.4rem,8vw,6.5rem);line-height:.91;letter-spacing:-4px;margin:24px 0}
+h1 span{color:var(--purple);text-shadow:3px 3px 0 var(--lime)}
+.intro{max-width:470px;font-size:1.05rem;line-height:1.7;color:#5f5668}
+.primary,.secondary{padding:13px 19px;border:2px solid var(--ink);border-radius:10px;font-weight:700;cursor:pointer;transition:transform .15s}
+.primary{background:var(--purple);color:white;box-shadow:4px 4px 0 var(--ink)}
+.secondary{background:white;box-shadow:3px 3px 0 var(--ink)}
+.primary:hover,.secondary:hover{transform:translateY(-2px)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:25px}
+.round-note{margin:18px 0 0;font-size:.83rem;font-weight:700;color:#62566c}
+.topbar nav{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px}
+.nav-button{border:2px solid var(--ink);border-radius:8px;background:var(--surface);color:var(--ink);padding:8px 12px;font-weight:700;cursor:pointer}
+.gallery-empty{text-align:center;padding:55px 20px;background:var(--surface);border:2px solid var(--ink);border-radius:16px;box-shadow:5px 5px 0 var(--ink)}
+.gallery-empty h2{font-family:'Fredoka',sans-serif;font-size:2rem}
+.gallery-empty p{max-width:460px;margin:0 auto 20px;color:#655777;line-height:1.6}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}
+.learning-progress{margin:0 0 22px;padding:20px;background:var(--surface);border:2px solid var(--ink);border-radius:14px;box-shadow:4px 4px 0 var(--ink)}
+.learning-progress strong{font-family:'Fredoka',sans-serif;font-size:1.25rem}
+.learning-progress p{margin:7px 0 0;color:#655777;line-height:1.5}
+.learning-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.learning-chip{padding:5px 10px;border:1px solid var(--ink);border-radius:999px;font-size:.78rem;font-weight:700;background:#f0e8ff}
+.art-card{overflow:hidden;background:white;border:2px solid var(--ink);border-radius:14px;box-shadow:4px 4px 0 var(--ink)}
+.art-card img{display:block;width:100%;aspect-ratio:1;background:#fff;object-fit:contain;border-bottom:2px solid var(--ink)}
+.art-card-body{padding:13px}.art-card-body h3{font-family:'Fredoka',sans-serif;margin:0 0 6px}.art-card-body p{font-size:.83rem;color:#655777;margin:5px 0 12px}
+.danger-button{border:2px solid var(--ink);border-radius:8px;background:#ffe3e9;padding:8px 10px;font-weight:700;cursor:pointer}
+.feedback-box{margin-top:14px;padding:12px;background:#e7f7d3;border:2px solid #547d31;border-radius:10px;color:#243019}
+.feedback-box label{display:block;font-weight:700;margin-bottom:8px}.feedback-box select{max-width:100%;padding:8px;border-radius:7px;border:1px solid #547d31}
+.feedback-box p{font-size:.82rem;line-height:1.45;margin:7px 0}
+.mascot-card{position:relative;padding:20px;background:#e8d8ff;border:3px solid var(--ink);border-radius:20px;box-shadow:8px 8px 0 var(--ink);transform:rotate(2deg);text-align:center}
+.mascot{width:100%;max-width:260px;animation:float 3s ease-in-out infinite}
+.speech{display:inline-block;background:white;border:2px solid var(--ink);border-radius:12px;padding:12px;font-family:'Fredoka',sans-serif;font-weight:600;transform:rotate(-2deg)}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:60px}
+.feature{padding:20px;background:var(--surface);border:2px solid var(--ink);border-radius:12px;box-shadow:4px 4px 0 var(--ink)}
+.feature b{color:var(--purple);font-family:'Fredoka',sans-serif;font-size:1.4rem}
+.feature p{color:var(--muted);font-size:.9rem;line-height:1.5}
+footer{padding:26px 5%;margin-top:45px;border-top:2px dashed var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.hidden{display:none!important}
+.game-head{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:20px}
+.game-head h2{font-family:'Fredoka',sans-serif;font-size:2rem;margin:0}
+.round-tag{background:var(--pink);border:2px solid var(--ink);padding:7px 12px;border-radius:8px;font-weight:700}
+.game-layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:22px;align-items:start}
+.panel{background:var(--surface);border:2px solid var(--ink);border-radius:15px;padding:16px;box-shadow:4px 4px 0 var(--ink)}
+.canvas-wrap{background:#fff;border:2px dashed var(--line);border-radius:10px;overflow:hidden;touch-action:none}
+#drawingCanvas{display:block;width:100%;height:auto;aspect-ratio:1/1;cursor:crosshair;touch-action:none}
+.toolbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:14px}
+.tool{border:2px solid var(--ink);border-radius:8px;background:var(--surface);color:var(--ink);padding:8px 10px;cursor:pointer;font-weight:600}
+.tool.active{background:var(--lime)}
+.colors{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.swatch{width:29px;height:29px;border:2px solid var(--ink);border-radius:50%;cursor:pointer}
+.swatch.active{outline:3px solid var(--pink);outline-offset:2px}
+input[type=color]{width:38px;height:32px;padding:2px;border:1px solid #aaa;border-radius:6px;background:white}
+input[type=range]{width:100%;accent-color:var(--purple)}
+.side-title{font-family:'Fredoka',sans-serif;font-size:1.25rem;margin:0 0 10px}
+.target{background:#e8d8ff;border:2px dashed var(--purple);padding:16px;border-radius:12px;text-align:center;margin-bottom:15px}
+.target small{display:block;color:#514561;font-weight:700}
+.target strong{display:block;font-family:'Fredoka',sans-serif;font-size:2rem;margin:8px 0}
+.timer{font-family:'Fredoka',sans-serif;font-size:2.4rem;text-align:center;margin:5px 0}
+.timer.urgent{color:#d82e54}
+.status{min-height:44px;font-size:.9rem;line-height:1.5;color:var(--muted);margin:10px 0}
+.controls{display:grid;gap:10px;margin-top:12px}
+.full{width:100%}
+.result{margin-top:16px;padding:13px;background:#f4f0ff;color:#211b2b;border:2px dashed var(--purple);border-radius:10px;line-height:1.6}
+body.dark-mode .secondary,body.dark-mode .nav-button,body.dark-mode .tool,body.dark-mode .art-card{background:var(--surface);color:var(--ink)}
+body.dark-mode .intro,body.dark-mode .round-note{color:var(--muted)}
+body.dark-mode .mascot-card{background:#3a2d4d}
+body.dark-mode .target{background:#342840}
+body.dark-mode .target small{color:#e1d4ef}
+body.dark-mode .result{background:#eee6fa;color:#211b2b}
+body.dark-mode .logo span,body.dark-mode h1 span,body.dark-mode .feature b{color:var(--lime)}
+body.dark-mode .pill,body.dark-mode .eyebrow,body.dark-mode .round-tag,body.dark-mode .tool.active{color:#211b2b}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-9px) rotate(2deg)}}
+@media(max-width:760px){.hero{grid-template-columns:1fr}h1{letter-spacing:-3px}.mascot-card{max-width:420px;margin:8px auto}.features{grid-template-columns:1fr}.game-layout{grid-template-columns:1fr}.game-head h2{font-size:1.6rem}main{margin:25px auto}.topbar{padding:16px 4%}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="logo">DOODLE <span>PANIC!!</span></div>
+  <nav aria-label="Main navigation"><div class="pill">CHAOS MODE: READY</div><button class="nav-button" id="soundToggle" type="button" aria-pressed="true">SOUND: ON</button><button class="nav-button" id="themeToggle" type="button" aria-pressed="false">DARK MODE: OFF</button><button class="nav-button" id="galleryButton" type="button">MY MASTERCHAOS</button></nav>
+</header>
+
+<main>
+<section id="home">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">YOUR ART IS ON TRIAL</div>
+      <h1>DRAW FAST.<br><span>PANIC HARDER.</span></h1>
+      <p class="intro">You've got a prompt, a canvas, and questionable artistic abilities. Draw before time runs out. GLITCH is watching, and GLITCH has opinions.</p>
+      <div class="hero-actions"><button class="primary" id="startButton" type="button">PLAY NOW ✦</button><button class="secondary" id="heroGalleryButton" type="button">MY MASTERCHAOS</button></div>
+      <p class="round-note">5 ROUNDS · ADAPTIVE DIFFICULTY · 15–40 SECONDS · QUESTIONABLE ARTISTIC RESULTS</p>
+    </div>
+    <div class="mascot-card">
+      <svg class="mascot" viewBox="0 0 300 300" role="img" aria-label="GLITCH the purple robot">
+        <ellipse cx="150" cy="275" rx="82" ry="12" fill="#b7a1d8" opacity=".5"/>
+        <path d="M105 205L83 244Q78 254 90 258L112 260L132 214 M190 205L214 242Q220 253 207 258L188 260L169 215" fill="#7928ca" stroke="#211b2b" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M112 215L105 261Q103 272 118 272L142 272L145 222 M188 215L195 261Q197 272 182 272L158 272L155 222" fill="#c5ff65" stroke="#211b2b" stroke-width="5"/>
+        <path d="M142 67V42Q142 30 153 30T164 42V67" fill="none" stroke="#211b2b" stroke-width="6"/>
+        <circle cx="153" cy="25" r="12" fill="#ff6685" stroke="#211b2b" stroke-width="5"/>
+        <rect x="75" y="72" width="154" height="137" rx="25" fill="#7928ca" stroke="#211b2b" stroke-width="6"/>
+        <rect x="86" y="92" width="132" height="88" rx="15" fill="#fff9ed" stroke="#211b2b" stroke-width="4"/>
+        <ellipse cx="120" cy="130" rx="12" ry="17" fill="#211b2b"/><ellipse cx="184" cy="130" rx="12" ry="17" fill="#211b2b"/>
+        <circle cx="124" cy="124" r="4" fill="white"/><circle cx="188" cy="124" r="4" fill="white"/>
+        <path d="M133 153Q151 166 171 151" fill="none" stroke="#211b2b" stroke-width="5" stroke-linecap="round"/>
+        <path d="M77 120L51 108Q42 104 37 114L29 132Q26 140 35 145L76 155 M228 120L252 103Q261 98 267 108L277 124Q281 132 273 139L230 157" fill="#ff6685" stroke="#211b2b" stroke-width="5"/>
+        <path d="M104 80L115 61L127 80M179 80L191 61L202 80" fill="#c5ff65" stroke="#211b2b" stroke-width="4"/>
+      </svg>
+      <div class="speech" id="speech">I WILL JUDGE YOUR ART.</div>
+    </div>
+  </div>
+  <section class="features">
+    <article class="feature"><b>01 / DRAW</b><h3>Trust your chaos.</h3><p>Grab your brush and draw the prompt before the clock hits zero.</p></article>
+    <article class="feature"><b>02 / GUESS</b><h3>Meet the AI judge.</h3><p>A trained 32-category neural network guesses what you drew. Its calibrated confidence drives your score, and the prompts and timer adapt to how you play.</p></article>
+    <article class="feature"><b>03 / SAVE</b><h3>Preserve the evidence.</h3><p>Save your favorite doodles to a private gallery stored in this browser.</p></article>
+  </section>
+</section>
+
+<section id="game" class="hidden">
+  <div class="game-head">
+    <h2>THE DOODLE DUNGEON</h2>
+    <span class="round-tag" id="roundLabel">ROUND 1 / 5</span>
+  </div>
+  <div class="game-layout">
+    <div class="panel">
+      <div class="canvas-wrap"><canvas id="drawingCanvas" width="600" height="600" aria-label="Drawing canvas"></canvas></div>
+      <div class="toolbar">
+        <button class="tool active" id="brushTool">✏️ Brush</button>
+        <button class="tool" id="eraserTool">🧽 Eraser</button>
+        <button class="tool" id="undoTool">↶ Undo</button>
+        <button class="tool" id="redoTool">↷ Redo</button>
+        <button class="tool" id="clearTool">🗑 Clear</button>
+      </div>
+      <p><b>INK COLOUR</b></p>
+      <div class="colors" id="colors">
+        <button class="swatch active" style="background:#211b2b" data-color="#211b2b" aria-label="Black"></button>
+        <button class="swatch" style="background:#7928ca" data-color="#7928ca" aria-label="Purple"></button>
+        <button class="swatch" style="background:#ff6685" data-color="#ff6685" aria-label="Pink"></button>
+        <button class="swatch" style="background:#c5ff65" data-color="#c5ff65" aria-label="Lime"></button>
+        <button class="swatch" style="background:#48bfe3" data-color="#48bfe3" aria-label="Blue"></button>
+        <button class="swatch" style="background:#ff9f1c" data-color="#ff9f1c" aria-label="Orange"></button>
+        <button class="swatch" style="background:#e63946" data-color="#e63946" aria-label="Red"></button>
+        <button class="swatch" style="background:#2a9d8f" data-color="#2a9d8f" aria-label="Green"></button>
+        <input type="color" id="customColor" value="#7928ca" aria-label="Custom colour">
+      </div>
+      <label for="brushSize"><b>BRUSH SIZE: <span id="sizeLabel">8</span> PX</b></label>
+      <input id="brushSize" type="range" min="2" max="32" value="8">
+      <div class="toolbar">
+        <button class="tool active" data-brush="marker">🖊 Marker</button>
+        <button class="tool" data-brush="pencil">✏️ Pencil</button>
+        <button class="tool" data-brush="crayon">🖍 Crayon</button>
+      </div>
+    </div>
+
+    <aside class="panel">
+      <div class="target">
+        <small>YOUR TOP-SECRET TARGET</small>
+        <strong id="targetWord">CAT</strong>
+        <small id="targetMeta">EASY PROMPT · 30 SECONDS</small>
+        <small>Use a bold, centered outline. The model knows 32 object types.</small>
+      </div>
+      <p class="side-title">TIME IS TICKING</p>
+      <div class="timer" id="timer">30</div>
+      <p class="status" id="status" aria-live="polite">GLITCH is waiting. Make your first stroke!</p>
+      <div class="controls">
+        <button class="primary full" id="submitButton">SUBMIT MY MASTERPIECE</button>
+        <button class="secondary full" id="resetTimerButton">↻ Restart timer</button>
+        <button class="secondary full" id="homeButton">Back to home</button>
+      </div>
+      <div class="result hidden" id="result" aria-live="polite"></div>
+      <p style="font-size:.78rem;color:#756b7d;line-height:1.5">Tip: draw one clear, centered outline with a thick stroke. GLITCH recognizes 32 Quick, Draw! categories, so abstract doodles may get a surprising guess.</p>
+    </aside>
+  </div>
+</section>
+<section id="gallery" class="hidden" aria-labelledby="galleryTitle">
+  <div class="game-head"><h2 id="galleryTitle">MY MASTERCHAOS</h2><div class="hero-actions"><button class="secondary" id="resetLearningButton" type="button">FORGET GLITCH'S LEARNING</button><button class="secondary" id="galleryHomeButton" type="button">BACK TO HOME</button></div></div>
+    <div class="learning-progress" id="learningProgress" aria-live="polite"></div>
+    <div class="gallery-empty" id="galleryEmpty"><p class="eyebrow">THE EVIDENCE VAULT</p><h2>Your gallery is empty. For now.</h2><p>Saved art and feedback examples stay in this browser. They are not uploaded.</p><button class="primary" id="galleryPlayButton" type="button">MAKE SOME ART</button></div>
+    <div class="gallery-grid hidden" id="galleryGrid" aria-live="polite"></div>
+</section>
+</main>
+<footer>MADE WITH QUESTIONABLE ARTISTIC JUDGEMENT · DOODLE PANIC!!</footer>
+
+<script src="agents.js"></script>
+<script>
+const home = document.getElementById('home');
+const game = document.getElementById('game');
+const gallery = document.getElementById('gallery');
+const canvas = document.getElementById('drawingCanvas');
+const ctx = canvas.getContext('2d');
+const timerDisplay = document.getElementById('timer');
+const statusDisplay = document.getElementById('status');
+const resultDisplay = document.getElementById('result');
+const submitButton = document.getElementById('submitButton');
+
+let drawing = false;
+let color = '#211b2b';
+let brushSize = 8;
+let brushType = 'marker';
+let erasing = false;
+let seconds = 30;
+let interval = null;
+let round = 1;
+let submitted = false;
+let sessionScore = 0;
+let successfulRounds = 0;
+let currentStreak = 0;
+let undoStack = [];
+let redoStack = [];
+
+// Used only if the API's /game/meta endpoint is unreachable.
+const FALLBACK_TIERS = {house:'easy',apple:'easy',star:'medium',fish:'medium',cat:'hard',banana:'hard'};
+let difficultyAgent = null;
+let timerAgent = null;
+let currentTarget = 'CAT';
+let currentTier = 'easy';
+let roundSeconds = 30;
+const API_BASE_URL = window.DOODLE_API_URL || 'http://127.0.0.1:8001';
+const soundToggle = document.getElementById('soundToggle');
+const themeToggle = document.getElementById('themeToggle');
+let soundEnabled = localStorage.getItem('doodlePanicSound') !== 'off';
+let darkModeEnabled = localStorage.getItem('doodlePanicTheme') === 'dark';
+let audioContext = null;
+let musicInterval = null;
+let musicStep = 0;
+
+function syncPreferences() {
+  document.body.classList.toggle('dark-mode',darkModeEnabled);
+  themeToggle.textContent = darkModeEnabled ? 'DARK MODE: ON' : 'DARK MODE: OFF';
+  themeToggle.setAttribute('aria-pressed',String(darkModeEnabled));
+  soundToggle.textContent = soundEnabled ? 'SOUND: ON' : 'SOUND: OFF';
+  soundToggle.setAttribute('aria-pressed',String(soundEnabled));
+}
+
+function playTone(frequency,duration,wave='triangle',volume=.025) {
+  if (!audioContext || !soundEnabled) return;
+  const oscillator=audioContext.createOscillator(), gain=audioContext.createGain(), now=audioContext.currentTime;
+  oscillator.type=wave; oscillator.frequency.setValueAtTime(frequency,now);
+  gain.gain.setValueAtTime(.0001,now); gain.gain.exponentialRampToValueAtTime(volume,now+.015); gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
+  oscillator.connect(gain); gain.connect(audioContext.destination); oscillator.start(now); oscillator.stop(now+duration+.02);
+}
+
+async function startMusic() {
+  if (!soundEnabled) return;
+  const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+  if (!AudioContextClass) return;
+  if (!audioContext) audioContext=new AudioContextClass();
+  if (audioContext.state==='suspended') await audioContext.resume();
+  if (musicInterval) return;
+  const melody=[523.25,659.25,783.99,659.25,587.33,698.46,880,698.46];
+  const bass=[130.81,164.81,196,164.81];
+  musicInterval=setInterval(()=>{
+    const step=musicStep++%melody.length;
+    playTone(melody[step],.25,'triangle',.018);
+    if(step%2===0) playTone(bass[(step/2)%bass.length],.45,'sine',.012);
+  },300);
+}
+
+function stopMusic() {
+  if(musicInterval){clearInterval(musicInterval);musicInterval=null;}
+  if(audioContext){const oldContext=audioContext;audioContext=null;oldContext.close();}
+  musicStep=0;
+}
+
+syncPreferences();
+
+function saveSnapshot(stack) {
+  stack.push(ctx.getImageData(0,0,canvas.width,canvas.height));
+  if (stack.length > 30) stack.shift();
+}
+
+function paintWhite() {
+  ctx.save();
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.restore();
+}
+
+function resetCanvas() {
+  paintWhite();
+  undoStack = [];
+  redoStack = [];
+  saveSnapshot(undoStack);
+}
+
+function getPosition(event) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: (event.clientX - rect.left) * canvas.width / rect.width,
+    y: (event.clientY - rect.top) * canvas.height / rect.height
+  };
+}
+
+function startDrawing(event) {
+  if (submitted) return;
+  event.preventDefault();
+  drawing = true;
+  canvas.setPointerCapture(event.pointerId);
+  saveSnapshot(undoStack);
+  redoStack = [];
+  const p = getPosition(event);
+  ctx.beginPath();
+  ctx.moveTo(p.x,p.y);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = erasing ? '#ffffff' : color;
+  ctx.lineWidth = erasing ? Math.max(18,brushSize*2) : brushSize;
+  ctx.globalAlpha = brushType === 'pencil' ? .65 : 1;
+  if (brushType === 'crayon') ctx.lineWidth = brushSize * 1.5;
+  ctx.lineTo(p.x + .01,p.y + .01);
+  ctx.stroke();
+}
+
+function continueDrawing(event) {
+  if (!drawing) return;
+  event.preventDefault();
+  const p = getPosition(event);
+  ctx.strokeStyle = erasing ? '#ffffff' : color;
+  ctx.lineWidth = erasing ? Math.max(18,brushSize*2) : brushSize;
+  ctx.globalAlpha = brushType === 'pencil' ? .65 : brushType === 'crayon' ? .8 : 1;
+  ctx.lineTo(p.x,p.y);
+  ctx.stroke();
+}
+
+function stopDrawing() {
+  if (!drawing) return;
+  drawing = false;
+  ctx.globalAlpha = 1;
+  ctx.beginPath();
+}
+
+canvas.addEventListener('pointerdown',startDrawing);
+canvas.addEventListener('pointermove',continueDrawing);
+canvas.addEventListener('pointerup',stopDrawing);
+canvas.addEventListener('pointercancel',stopDrawing);
+canvas.addEventListener('contextmenu',e=>e.preventDefault());
+
+function showGame() {
+  home.classList.add('hidden');
+  gallery.classList.add('hidden');
+  game.classList.remove('hidden');
+  document.getElementById('speech').textContent = 'OH NO. THEY ARE DRAWING.';
+  resetCanvas();
+  startTimer();
+}
+
+async function loadDifficultyTiers() {
+  try {
+    const response = await fetch(API_BASE_URL + '/game/meta');
+    if (response.ok) {
+      const meta = await response.json();
+      if (meta.difficulty && Object.keys(meta.difficulty).length) return meta.difficulty;
+    }
+  } catch (error) { /* API offline: fall back to a small built-in prompt set */ }
+  return FALLBACK_TIERS;
+}
+
+function setNextTarget() {
+  const pick = difficultyAgent.nextTarget() || {label:'cat',tier:'medium'};
+  currentTarget = pick.label.toUpperCase();
+  currentTier = pick.tier;
+  roundSeconds = timerAgent.seconds;
+  document.getElementById('targetWord').textContent = currentTarget;
+  document.getElementById('targetMeta').textContent = currentTier.toUpperCase() + ' PROMPT · ' + roundSeconds + ' SECONDS';
+}
+
+async function startNewSession() {
+  round = 1; sessionScore = 0; successfulRounds = 0; currentStreak = 0;
+  document.getElementById('roundLabel').textContent = 'ROUND 1 / 5';
+  difficultyAgent = DoodleAgents.createDifficultyAgent(await loadDifficultyTiers());
+  timerAgent = DoodleAgents.createTimerAgent();
+  setNextTarget();
+  showGame();
+}
+
+function startTimer() {
+  startMusic().catch(()=>{});
+  clearInterval(interval);
+  seconds = roundSeconds;
+  submitted = false;
+  timerDisplay.textContent = seconds;
+  timerDisplay.classList.remove('urgent');
+  statusDisplay.textContent = 'GLITCH is waiting. Make your first stroke!';
+  resultDisplay.classList.add('hidden');
+  submitButton.disabled = false;
+  submitButton.textContent = 'SUBMIT MY MASTERPIECE';
+  submitButton.onclick = null;
+  interval = setInterval(()=>{
+    if (submitted) return;
+    seconds--;
+    timerDisplay.textContent = seconds;
+    if (seconds <= 5) timerDisplay.classList.add('urgent');
+    if (seconds <= 10 && seconds > 0) playTone(880,.09,'square',.055);
+    if (seconds <= 0) {
+      seconds = 0;
+      timerDisplay.textContent = 0;
+      finishRound(true);
+    }
+  },1000);
+}
+
+function canvasIsBlank() {
+  const pixels = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+  for (let i=0;i<pixels.length;i+=4) if (pixels[i] < 245 || pixels[i+1] < 245 || pixels[i+2] < 245) return false;
+  return true;
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g,character=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+}
+
+async function applyLocalLearning(scoreRows,embedding,modelVersion) {
+  let examples=[];
+  try { examples=(await getLearningExamples()).slice(0,100); } catch(error) { return {predictions:Array.isArray(scoreRows)?scoreRows.slice(0,3):[],matched:false}; }
+  const vector=Array.isArray(embedding)?embedding.map(Number):[];
+  if(!vector.length||!Array.isArray(scoreRows)||!scoreRows.length) return {predictions:Array.isArray(scoreRows)?scoreRows.slice(0,3):[],matched:false};
+  const neighbors=examples.filter(item=>item.modelVersion===modelVersion&&Array.isArray(item.embedding)&&item.embedding.length===vector.length).map(item=>{
+    let similarity=0;
+    for(let i=0;i<vector.length;i++) similarity+=vector[i]*Number(item.embedding[i]);
+    return {...item,similarity};
+  }).sort((a,b)=>b.similarity-a.similarity).slice(0,5);
+  if(!neighbors.length||neighbors[0].similarity<.86) return {predictions:scoreRows.slice(0,3),matched:false};
+  const labelWeights=new Map();
+  for(const item of neighbors){
+    const weight=Math.pow(Math.max(0,item.similarity),12);
+    labelWeights.set(item.correctLabel,(labelWeights.get(item.correctLabel)||0)+weight);
+  }
+  const weightTotal=[...labelWeights.values()].reduce((sum,value)=>sum+value,0)||1;
+  const adjusted=new Map(scoreRows.map(row=>[row.label,Number(row.confidence)]));
+  const matchingCount=neighbors.filter(row=>row.correctLabel===neighbors[0].correctLabel).length;
+  const blend=Math.min(.48,.22+.06*Math.min(3,matchingCount-1)+Math.max(0,neighbors[0].similarity-.86)*.7);
+  for(const row of scoreRows){
+    const memoryPrior=(labelWeights.get(row.label)||0)/weightTotal;
+    adjusted.set(row.label,Number(row.confidence)*(1-blend)+memoryPrior*blend);
+  }
+  return {predictions:scoreRows.map(row=>({...row,confidence:adjusted.get(row.label)})).sort((a,b)=>b.confidence-a.confidence).slice(0,3),matched:true,similarity:neighbors[0].similarity};
+}
+
+function finishRound(timesUp) {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(interval);
+  stopMusic();
+  stopDrawing();
+  submitButton.disabled = true;
+  statusDisplay.textContent = timesUp ? 'TIME IS UP. Sending the evidence to GLITCH...' : 'Sending your drawing to GLITCH...';
+  resultDisplay.textContent = 'The neural network is inspecting your doodle...';
+  resultDisplay.classList.remove('hidden');
+  performPrediction(timesUp);
+}
+
+async function performPrediction(timesUp) {
+  const target = currentTarget.toLowerCase();
+  if (canvasIsBlank()) {
+    statusDisplay.textContent = 'No drawing to recognize yet.';
+    resultDisplay.innerHTML = '<b>GLITCH SAYS:</b><br>"A blank canvas is avant-garde. It is also impossible to classify."';
+    submitButton.disabled = false;
+    submitButton.textContent = round < 5 ? 'NEXT ROUND' : 'SEE FINAL RESULTS';
+    submitButton.onclick = nextAction;
+    return;
+  }
+
+  try {
+    const response = await fetch(API_BASE_URL + '/predict', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({image_base64:canvas.toDataURL('image/png')})
+    });
+    if (!response.ok) {
+      const detail = await response.json().catch(()=>({}));
+      throw new Error(detail.detail || 'The inference API returned HTTP ' + response.status + '.');
+    }
+    const result = await response.json();
+    if (!Array.isArray(result.predictions) || result.predictions.length < 1) throw new Error('The model returned no predictions.');
+    // Scoring and adaptation use the model's own (calibrated) output only.
+    const predictions = result.predictions;
+    const outcome = DoodleAgents.outcome(predictions,target);
+    const secondsLeft = Math.max(0,seconds);
+    const points = DoodleAgents.score(outcome,currentTier,secondsLeft);
+    const advice = DoodleAgents.feedback(outcome,target);
+    const nextLevel = difficultyAgent.update(outcome);
+    const nextSeconds = timerAgent.update(outcome,secondsLeft);
+    sessionScore += points;
+    if (outcome.topThree) successfulRounds++;
+    currentStreak = outcome.topOne ? currentStreak+1 : 0;
+    // Browser-local corrections are shown as a suggestion; they never change the score.
+    const personalization=await applyLocalLearning(result.scores||result.predictions,result.embedding,result.model_version);
+    const memoryGuess = personalization.matched && personalization.predictions[0] && personalization.predictions[0].label!==predictions[0].label ? personalization.predictions[0].label : null;
+    const list = predictions.map((item,index)=>'<li><b>'+(index+1)+'. '+escapeHTML(item.label)+'</b> — '+(Number(item.confidence)*100).toFixed(1)+'%</li>').join('');
+    const reaction = outcome.topOne ? 'WAIT. THAT ACTUALLY LOOKS GOOD?' : outcome.topThree ? 'Close enough for a suspicious robot.' : 'The vision was there. The execution left the building.';
+    statusDisplay.textContent = outcome.topOne ? 'Target recognized! GLITCH is reluctantly impressed.' : outcome.topThree ? 'Target made the top three.' : 'The model did not recognize the target this round.';
+    const learningNote = memoryGuess ? '<br><small>Your saved corrections suggest: <b>'+escapeHTML(memoryGuess)+'</b> (not used for scoring).</small>' : '';
+    const scoreNote = result.confidence_type==='temperature_scaled_softmax' ? 'Confidence is temperature-calibrated (T = '+Number(result.temperature).toFixed(2)+').' : 'Raw softmax confidence; not calibrated.';
+    const nextNote = round < 5 ? '<br><small><b>Next round:</b> '+escapeHTML(nextLevel)+' prompt, '+nextSeconds+' seconds.</small>' : '';
+    resultDisplay.innerHTML = '<b>GLITCH SAYS:</b><br>"'+reaction+'"<br><br><b>Target:</b> '+escapeHTML(currentTarget)+' <small>('+escapeHTML(currentTier)+')</small><br><b>Model predictions:</b><ol>'+list+'</ol><small>'+scoreNote+'</small>'+learningNote+'<br><br><b>Coach:</b> '+escapeHTML(advice.message)+'<br><br><b>Round points:</b> '+points+'<br><b>Session score:</b> '+sessionScore+nextNote;
+    const saveButton = document.createElement('button');
+    saveButton.type = 'button'; saveButton.className = 'secondary'; saveButton.style.marginTop = '12px'; saveButton.textContent = 'SAVE THIS DOODLE';
+    saveButton.addEventListener('click',async()=>{
+      saveButton.disabled = true;
+      try {
+        await saveArtwork({image:canvas.toDataURL('image/png'),target:currentTarget,guess:predictions[0].label,points,createdAt:Date.now()});
+        saveButton.textContent = 'SAVED TO GALLERY';
+      } catch (error) { saveButton.disabled = false; saveButton.textContent = 'SAVE FAILED — TRY AGAIN'; }
+    });
+    resultDisplay.append(document.createElement('br'),saveButton);
+    const feedbackBox=document.createElement('div'); feedbackBox.className='feedback-box';
+    const feedbackLabel=document.createElement('label'); feedbackLabel.textContent='Teach GLITCH what you drew';
+    const correction=document.createElement('select'); correction.setAttribute('aria-label','Correct label for this drawing');
+    // No default choice: the player must actively pick what they drew.
+    const placeholder=document.createElement('option'); placeholder.value=''; placeholder.textContent='— choose what you drew —'; placeholder.selected=true; placeholder.disabled=true; correction.append(placeholder);
+    for(const row of (result.scores||result.predictions)) { const option=document.createElement('option'); option.value=row.label; option.textContent=row.label; correction.append(option); }
+    const feedbackCopy=document.createElement('p'); feedbackCopy.textContent='Corrections stay in this browser and can help with similar future doodles.';
+    const feedbackButton=document.createElement('button'); feedbackButton.type='button'; feedbackButton.className='secondary'; feedbackButton.textContent='SAVE CORRECTION'; feedbackButton.disabled=true;
+    correction.addEventListener('change',()=>{ feedbackButton.disabled=!correction.value; });
+    feedbackButton.addEventListener('click',async()=>{
+      feedbackButton.disabled=true;
+      try {
+        await saveLearningExample({image:canvas.toDataURL('image/png'),correctLabel:correction.value,guessedLabel:predictions[0].label,embedding:result.embedding,modelVersion:result.model_version,createdAt:Date.now()});
+        feedbackCopy.textContent='Correction saved on this device. It can personalize guesses for similar doodles; the CNN is not retrained.';
+        await renderLearningProgress();
+        feedbackButton.textContent='LEARNING SAVED';
+      } catch(error) { feedbackButton.disabled=false; feedbackCopy.textContent='Could not save this correction in browser storage.'; }
+    });
+    feedbackBox.append(feedbackLabel,correction,feedbackCopy,feedbackButton); resultDisplay.append(feedbackBox);
+  } catch (error) {
+    statusDisplay.textContent = 'AI recognition is unavailable. Your drawing is still on the canvas.';
+    resultDisplay.innerHTML = '<b>MODEL UNAVAILABLE</b><br>'+escapeHTML(error.message)+'<br><br>Your doodle is preserved. Start the FastAPI server, then retry.';
+    const retry = document.createElement('button');
+    retry.type = 'button';
+    retry.className = 'secondary';
+    retry.textContent = 'RETRY PREDICTION';
+    retry.addEventListener('click',()=>performPrediction(timesUp));
+    resultDisplay.append(document.createElement('br'),retry);
+    return;
+  }
+  submitButton.disabled = false;
+  submitButton.textContent = round < 5 ? 'NEXT ROUND' : 'SEE FINAL RESULTS';
+  submitButton.onclick = nextAction;
+}
+
+function nextAction() {
+  if (round >= 5) {
+    alert('CHAOS SESSION COMPLETE! Score: ' + sessionScore + ' points. Targets recognized in top three: ' + successfulRounds + ' / 5.');
+    round = 1;
+    sessionScore = 0;
+    successfulRounds = 0;
+    currentStreak = 0;
+    document.getElementById('roundLabel').textContent = 'ROUND 1 / 5';
+    showHome();
+    return;
+  }
+  round++;
+  document.getElementById('roundLabel').textContent = 'ROUND ' + round + ' / 5';
+  setNextTarget();
+  submitButton.onclick = ()=>finishRound(false);
+  resetCanvas();
+  startTimer();
+}
+
+function openGalleryDB() {
+  return new Promise((resolve,reject)=>{
+    const request = indexedDB.open('doodle-panic-gallery',2);
+    request.onupgradeneeded = ()=>{
+      const db=request.result;
+      if(!db.objectStoreNames.contains('artworks')) db.createObjectStore('artworks',{keyPath:'id'});
+      if(!db.objectStoreNames.contains('feedback')) db.createObjectStore('feedback',{keyPath:'id'});
+    };
+    request.onsuccess = ()=>resolve(request.result);
+    request.onerror = ()=>reject(request.error);
+  });
+}
+async function getLearningExamples() {
+  const db=await openGalleryDB();
+  return new Promise((resolve,reject)=>{
+    const request=db.transaction('feedback','readonly').objectStore('feedback').getAll();
+    request.onsuccess=()=>{const examples=request.result.sort((a,b)=>b.createdAt-a.createdAt);db.close();resolve(examples);};
+    request.onerror=()=>{db.close();reject(request.error);};
+  });
+}
+async function renderLearningProgress() {
+  const panel=document.getElementById('learningProgress');
+  panel.replaceChildren();
+  try {
+    const examples=await getLearningExamples();
+    const title=document.createElement('strong');
+    const detail=document.createElement('p');
+    if(!examples.length) {
+      title.textContent='GLITCH has no saved corrections yet.';
+      detail.textContent='After a guess, choose what you actually drew and save the correction. Examples stay on this browser and help match similar doodles; they do not retrain the CNN.';
+      panel.append(title,detail);
+      return;
+    }
+    const categories=new Map();
+    for(const example of examples) categories.set(example.correctLabel,(categories.get(example.correctLabel)||0)+1);
+    title.textContent=`${examples.length} saved correction${examples.length===1?'':'s'} across ${categories.size} categor${categories.size===1?'y':'ies'}`;
+    detail.textContent=`Last correction: ${new Date(examples[0].createdAt).toLocaleString()}. These local examples personalize similar-doodle matching; they do not retrain the CNN.`;
+    const chips=document.createElement('div'); chips.className='learning-chips';
+    for(const [label,count] of [...categories].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))) {
+      const chip=document.createElement('span'); chip.className='learning-chip'; chip.textContent=`${label} · ${count}`; chips.append(chip);
+    }
+    panel.append(title,detail,chips);
+  } catch(error) {
+    const title=document.createElement('strong'); title.textContent='Learning progress is unavailable.';
+    const detail=document.createElement('p'); detail.textContent='This browser could not read locally saved correction examples.';
+    panel.append(title,detail);
+  }
+}
+async function saveLearningExample(example) {
+  const db=await openGalleryDB();
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction('feedback','readwrite');
+    tx.objectStore('feedback').put({id:String(example.createdAt)+'-'+Math.random().toString(16).slice(2),...example});
+    tx.oncomplete=()=>{db.close();resolve();}; tx.onerror=()=>{db.close();reject(tx.error);};
+  });
+}
+async function clearLearningExamples() {
+  const db=await openGalleryDB();
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction('feedback','readwrite'); tx.objectStore('feedback').clear();
+    tx.oncomplete=()=>{db.close();resolve();}; tx.onerror=()=>{db.close();reject(tx.error);};
+  });
+}
+async function saveArtwork(artwork) {
+  const db = await openGalleryDB();
+  return new Promise((resolve,reject)=>{
+    const transaction = db.transaction('artworks','readwrite');
+    transaction.objectStore('artworks').put({id:String(artwork.createdAt)+'-'+Math.random().toString(16).slice(2),...artwork});
+    transaction.oncomplete = ()=>{db.close();resolve();};
+    transaction.onerror = ()=>{db.close();reject(transaction.error);};
+  });
+}
+async function renderGallery() {
+  const empty = document.getElementById('galleryEmpty');
+  const grid = document.getElementById('galleryGrid');
+  try {
+    await renderLearningProgress();
+    const db = await openGalleryDB();
+    const items = await new Promise((resolve,reject)=>{
+      const request = db.transaction('artworks','readonly').objectStore('artworks').getAll();
+      request.onsuccess = ()=>resolve(request.result.sort((a,b)=>b.createdAt-a.createdAt));
+      request.onerror = ()=>reject(request.error);
+    });
+    db.close(); grid.replaceChildren();
+    empty.classList.toggle('hidden',items.length>0); grid.classList.toggle('hidden',items.length===0);
+    for (const item of items) {
+      const card=document.createElement('article'); card.className='art-card';
+      const image=document.createElement('img'); image.src=item.image; image.alt='Saved drawing for '+item.target;
+      const body=document.createElement('div'); body.className='art-card-body';
+      const title=document.createElement('h3'); title.textContent='Target: '+item.target;
+      const details=document.createElement('p'); details.textContent='GLITCH guessed '+item.guess+' · '+item.points+' points · '+new Date(item.createdAt).toLocaleString();
+      const remove=document.createElement('button'); remove.type='button'; remove.className='danger-button'; remove.textContent='DELETE';
+      remove.addEventListener('click',async()=>{
+        const database=await openGalleryDB();
+        await new Promise((resolve,reject)=>{const tx=database.transaction('artworks','readwrite');tx.objectStore('artworks').delete(item.id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});
+        database.close(); renderGallery();
+      });
+      body.append(title,details,remove); card.append(image,body); grid.append(card);
+    }
+  } catch (error) {
+    empty.classList.remove('hidden');
+    empty.querySelector('p:not(.eyebrow)').textContent='This browser could not open local gallery storage. Your drawings are not uploaded.';
+  }
+}
+function showHome() { clearInterval(interval); stopMusic(); game.classList.add('hidden'); gallery.classList.add('hidden'); home.classList.remove('hidden'); window.scrollTo({top:0,behavior:'smooth'}); }
+function showGallery() { clearInterval(interval); stopMusic(); home.classList.add('hidden'); game.classList.add('hidden'); gallery.classList.remove('hidden'); renderGallery(); window.scrollTo({top:0,behavior:'smooth'}); }
+document.getElementById('startButton').addEventListener('click',startNewSession);
+document.getElementById('galleryButton').addEventListener('click',showGallery);
+document.getElementById('heroGalleryButton').addEventListener('click',showGallery);
+document.getElementById('galleryHomeButton').addEventListener('click',showHome);
+document.getElementById('galleryPlayButton').addEventListener('click',startNewSession);
+document.getElementById('resetLearningButton').addEventListener('click',async()=>{
+  if(!confirm('Forget all GLITCH feedback examples saved on this browser? Your art gallery will stay.')) return;
+  try { await clearLearningExamples(); await renderLearningProgress(); alert('GLITCH has forgotten your feedback examples.'); }
+  catch(error) { alert('Could not clear local learning examples.'); }
+});
+soundToggle.addEventListener('click',()=>{
+  soundEnabled=!soundEnabled;
+  localStorage.setItem('doodlePanicSound',soundEnabled?'on':'off'); syncPreferences();
+  if(soundEnabled&&!game.classList.contains('hidden')) startMusic().catch(()=>{}); else if(!soundEnabled) stopMusic();
+});
+themeToggle.addEventListener('click',()=>{
+  darkModeEnabled=!darkModeEnabled;
+  localStorage.setItem('doodlePanicTheme',darkModeEnabled?'dark':'light'); syncPreferences();
+});
+submitButton.addEventListener('click',()=>finishRound(false));
+document.getElementById('resetTimerButton').addEventListener('click',startTimer);
+document.getElementById('homeButton').addEventListener('click',()=>{
+  showHome();
+});
+
+document.getElementById('brushSize').addEventListener('input',e=>{
+  brushSize = Number(e.target.value);
+  document.getElementById('sizeLabel').textContent = brushSize;
+});
+
+document.querySelectorAll('[data-color]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    color = button.dataset.color;
+    erasing = false;
+    document.getElementById('eraserTool').classList.remove('active');
+    document.getElementById('brushTool').classList.add('active');
+    document.querySelectorAll('[data-color]').forEach(b=>b.classList.toggle('active',b===button));
+  });
+});
+
+document.getElementById('customColor').addEventListener('input',e=>{
+  color = e.target.value;
+  erasing = false;
+  document.getElementById('eraserTool').classList.remove('active');
+  document.getElementById('brushTool').classList.add('active');
+  document.querySelectorAll('[data-color]').forEach(b=>b.classList.remove('active'));
+});
+
+document.getElementById('brushTool').addEventListener('click',()=>{
+  erasing = false;
+  document.getElementById('brushTool').classList.add('active');
+  document.getElementById('eraserTool').classList.remove('active');
+});
+
+document.getElementById('eraserTool').addEventListener('click',()=>{
+  erasing = true;
+  document.getElementById('eraserTool').classList.add('active');
+  document.getElementById('brushTool').classList.remove('active');
+});
+
+document.querySelectorAll('[data-brush]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    brushType = button.dataset.brush;
+    document.querySelectorAll('[data-brush]').forEach(b=>b.classList.toggle('active',b===button));
+  });
+});
+
+document.getElementById('undoTool').addEventListener('click',()=>{
+  if (undoStack.length <= 1) return;
+  redoStack.push(ctx.getImageData(0,0,canvas.width,canvas.height));
+  undoStack.pop();
+  ctx.putImageData(undoStack[undoStack.length-1],0,0);
+});
+
+document.getElementById('redoTool').addEventListener('click',()=>{
+  if (!redoStack.length) return;
+  const image = redoStack.pop();
+  saveSnapshot(undoStack);
+  ctx.putImageData(image,0,0);
+});
+
+document.getElementById('clearTool').addEventListener('click',()=>{
+  if (confirm('Erase your entire masterpiece? GLITCH will remember.')) resetCanvas();
+});
+
+submitButton.onclick = ()=>finishRound(false);
+resetCanvas();
+</script>
+</body>
+</html>

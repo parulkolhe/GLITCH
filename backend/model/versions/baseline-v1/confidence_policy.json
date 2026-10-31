@@ -1,0 +1,150 @@
+{
+  "uncertain_below": 0.69,
+  "rule": "largest threshold where validation top-1 accuracy below it is < 50% (min 50 drawings)",
+  "coverage_at_threshold": 0.8099375,
+  "selective_accuracy_at_threshold": 0.9671656763639169,
+  "accuracy_below_threshold": 0.4998355804011838,
+  "drawings_below_threshold": 6082,
+  "curve": [
+    {
+      "threshold": 0.0,
+      "coverage": 1.0,
+      "selective_accuracy": 0.87834375,
+      "below_accuracy": null,
+      "below_count": 0
+    },
+    {
+      "threshold": 0.05,
+      "coverage": 1.0,
+      "selective_accuracy": 0.87834375,
+      "below_accuracy": null,
+      "below_count": 0
+    },
+    {
+      "threshold": 0.1,
+      "coverage": 0.99953125,
+      "selective_accuracy": 0.8786931374081601,
+      "below_accuracy": 0.13333333333333333,
+      "below_count": 15
+    },
+    {
+      "threshold": 0.15,
+      "coverage": 0.995625,
+      "selective_accuracy": 0.8817325800376647,
+      "below_accuracy": 0.10714285714285714,
+      "below_count": 140
+    },
+    {
+      "threshold": 0.2,
+      "coverage": 0.98825,
+      "selective_accuracy": 0.8868264609157602,
+      "below_accuracy": 0.16489361702127658,
+      "below_count": 376
+    },
+    {
+      "threshold": 0.25,
+      "coverage": 0.9779375,
+      "selective_accuracy": 0.8936856905477089,
+      "below_accuracy": 0.19830028328611898,
+      "below_count": 706
+    },
+    {
+      "threshold": 0.3,
+      "coverage": 0.96521875,
+      "selective_accuracy": 0.9013824586395571,
+      "below_accuracy": 0.2389937106918239,
+      "below_count": 1113
+    },
+    {
+      "threshold": 0.35,
+      "coverage": 0.9510625,
+      "selective_accuracy": 0.9090819478215154,
+      "below_accuracy": 0.280970625798212,
+      "below_count": 1566
+    },
+    {
+      "threshold": 0.4,
+      "coverage": 0.93459375,
+      "selective_accuracy": 0.9179456314575183,
+      "below_accuracy": 0.3124701385570951,
+      "below_count": 2093
+    },
+    {
+      "threshold": 0.45,
+      "coverage": 0.917625,
+      "selective_accuracy": 0.9263043182127776,
+      "below_accuracy": 0.34408194233687406,
+      "below_count": 2636
+    },
+    {
+      "threshold": 0.5,
+      "coverage": 0.89734375,
+      "selective_accuracy": 0.9354692669336584,
+      "below_accuracy": 0.3789954337899543,
+      "below_count": 3285
+    },
+    {
+      "threshold": 0.55,
+      "coverage": 0.8733125,
+      "selective_accuracy": 0.9456809561296786,
+      "below_accuracy": 0.414158855451406,
+      "below_count": 4054
+    },
+    {
+      "threshold": 0.6,
+      "coverage": 0.85084375,
+      "selective_accuracy": 0.953612223160833,
+      "below_accuracy": 0.44898386758851877,
+      "below_count": 4773
+    },
+    {
+      "threshold": 0.65,
+      "coverage": 0.8290625,
+      "selective_accuracy": 0.9610252544289484,
+      "below_accuracy": 0.4773308957952468,
+      "below_count": 5470
+    },
+    {
+      "threshold": 0.7,
+      "coverage": 0.80534375,
+      "selective_accuracy": 0.9685693221062435,
+      "below_accuracy": 0.5050569914914111,
+      "below_count": 6229
+    },
+    {
+      "threshold": 0.75,
+      "coverage": 0.78315625,
+      "selective_accuracy": 0.9741829934958701,
+      "below_accuracy": 0.53220925205361,
+      "below_count": 6939
+    },
+    {
+      "threshold": 0.8,
+      "coverage": 0.75625,
+      "selective_accuracy": 0.9797107438016529,
+      "below_accuracy": 0.5638461538461539,
+      "below_count": 7800
+    },
+    {
+      "threshold": 0.85,
+      "coverage": 0.729375,
+      "selective_accuracy": 0.9840616966580977,
+      "below_accuracy": 0.5934180138568129,
+      "below_count": 8660
+    },
+    {
+      "threshold": 0.9,
+      "coverage": 0.694125,
+      "selective_accuracy": 0.9892400504231946,
+      "below_accuracy": 0.626685737637924,
+      "below_count": 9788
+    },
+    {
+      "threshold": 0.95,
+      "coverage": 0.63740625,
+      "selective_accuracy": 0.9932342991616414,
+      "below_accuracy": 0.6763767991036801,
+      "below_count": 11603
+    }
+  ]
+}

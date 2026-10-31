@@ -1,0 +1,103 @@
+{
+  "model_version": "baseline-v1",
+  "split": "validation",
+  "drawings": 1920,
+  "families": {
+    "translation (fraction of width)": [
+      {
+        "level": 0,
+        "accuracy": 0.8797
+      },
+      {
+        "level": 0.04,
+        "accuracy": 0.8802
+      },
+      {
+        "level": 0.08,
+        "accuracy": 0.8844
+      },
+      {
+        "level": 0.12,
+        "accuracy": 0.8677
+      },
+      {
+        "level": 0.16,
+        "accuracy": 0.8448
+      },
+      {
+        "level": 0.24,
+        "accuracy": 0.7401
+      }
+    ],
+    "rotation (degrees)": [
+      {
+        "level": 0,
+        "accuracy": 0.8797
+      },
+      {
+        "level": 8,
+        "accuracy": 0.8844
+      },
+      {
+        "level": 16,
+        "accuracy": 0.8609
+      },
+      {
+        "level": 24,
+        "accuracy": 0.8016
+      },
+      {
+        "level": 32,
+        "accuracy": 0.6766
+      },
+      {
+        "level": 45,
+        "accuracy": 0.4693
+      }
+    ],
+    "scale (zoom factor)": [
+      {
+        "level": 0.6,
+        "accuracy": 0.4469
+      },
+      {
+        "level": 0.75,
+        "accuracy": 0.8115
+      },
+      {
+        "level": 0.9,
+        "accuracy": 0.8786
+      },
+      {
+        "level": 1.0,
+        "accuracy": 0.8797
+      },
+      {
+        "level": 1.1,
+        "accuracy": 0.8818
+      },
+      {
+        "level": 1.25,
+        "accuracy": 0.8536
+      }
+    ],
+    "stroke thickness (pixels)": [
+      {
+        "level": -1,
+        "accuracy": 0.1271
+      },
+      {
+        "level": 0,
+        "accuracy": 0.8797
+      },
+      {
+        "level": 1,
+        "accuracy": 0.6656
+      },
+      {
+        "level": 2,
+        "accuracy": 0.3193
+      }
+    ]
+  }
+}

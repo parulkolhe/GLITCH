@@ -1,0 +1,63 @@
+{
+  "model_version": "baseline-v1",
+  "drawings": 3200,
+  "raw_test_accuracy": 0.8612,
+  "round_trip_accuracy": 0.61,
+  "accuracy_gap": 0.2512,
+  "top1_agreement_raw_vs_round_trip": 0.635,
+  "mean_abs_pixel_difference": 32.53,
+  "per_class_round_trip_accuracy": {
+    "cat": 0.36,
+    "dog": 0.36,
+    "fish": 0.35,
+    "bird": 0.25,
+    "house": 0.64,
+    "tree": 0.91,
+    "flower": 0.42,
+    "sun": 0.44,
+    "moon": 0.1,
+    "star": 0.2,
+    "car": 0.78,
+    "bicycle": 0.87,
+    "airplane": 0.56,
+    "sailboat": 0.8,
+    "apple": 0.73,
+    "banana": 0.89,
+    "pizza": 0.9,
+    "cake": 0.85,
+    "umbrella": 0.87,
+    "clock": 0.64,
+    "guitar": 0.94,
+    "chair": 0.79,
+    "key": 0.29,
+    "lightning": 0.46,
+    "cloud": 0.51,
+    "headphones": 0.84,
+    "frog": 0.61,
+    "duck": 0.57,
+    "rabbit": 0.67,
+    "butterfly": 0.55,
+    "mountain": 0.43,
+    "book": 0.94
+  },
+  "input_statistics": {
+    "training_format": {
+      "ink_coverage_mean": 0.242,
+      "ink_coverage_p10_p90": [
+        0.1684,
+        0.3291
+      ],
+      "bbox_extent_mean": 0.9283,
+      "stroke_intensity_mean": 174.8
+    },
+    "round_trip": {
+      "ink_coverage_mean": 0.3109,
+      "ink_coverage_p10_p90": [
+        0.2207,
+        0.4096
+      ],
+      "bbox_extent_mean": 0.8571,
+      "stroke_intensity_mean": 210.1
+    }
+  }
+}
